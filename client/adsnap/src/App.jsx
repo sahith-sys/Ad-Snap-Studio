@@ -10,6 +10,7 @@ import Signup from "./components/Signup";
 import Pricing from "./components/Pricing";
 import BgGen from "./components/BgGen";
 import AppContextProvider from "./components/AppContext";
+import ProductEditing from "./components/ProductEditing";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/pricing" element={<Pricing />}></Route>
         <Route path="/imggen" element={<ImgGen />}></Route>
         <Route path="/bggen" element={<BgGen />}></Route>
+        <Route path="/product-editing" element={<ProductEditing/>}></Route>
       </Routes>
       <ToastContainer />
     </div>
