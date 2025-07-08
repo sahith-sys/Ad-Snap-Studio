@@ -42,7 +42,7 @@ function ProductEditing() {
             setPreview(URL.createObjectURL(file));
             const base64 = await convertToBase64(file);
             const pureBase64 = base64.split(",")[1];
-            setUserImage(pureBase64);
+            setUserImage(base64);
         }
     }
     function convertToBase64(file){

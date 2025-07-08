@@ -11,6 +11,7 @@ import Pricing from "./components/Pricing";
 import BgGen from "./components/BgGen";
 import AppContextProvider from "./components/AppContext";
 import ProductEditing from "./components/ProductEditing";
+import GenFill from "./components/GenFill";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/imggen" element={<ImgGen />}></Route>
         <Route path="/bggen" element={<BgGen />}></Route>
         <Route path="/product-editing" element={<ProductEditing/>}></Route>
+        <Route path="/gen-fill" element={<GenFill />}></Route>
       </Routes>
       <ToastContainer />
     </div>
