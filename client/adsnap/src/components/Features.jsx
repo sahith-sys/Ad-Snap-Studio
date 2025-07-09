@@ -92,7 +92,7 @@ function Features() {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10">
         {features.map((feature) => (
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer hover:scale-105" key={feature.id}>
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer" key={feature.id}>
           <h2 className="text-2xl font-semibold mb-4">{feature.title}</h2>
           <p>
             {feature.description}
