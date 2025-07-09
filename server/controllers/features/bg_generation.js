@@ -26,7 +26,7 @@ async function bgGeneration(req, res) {
       {
         headers: {
           "Content-Type": "application/json",
-          api_token: process.env.BRIA_API_KEY, // Replace this with your actual API key
+          api_token: process.env.BRIA_API_KEY,
         },
       }
     );

@@ -24,7 +24,7 @@ async function productPackshot(req, res) {
       `https://engine.prod.bria-api.com/v1/product/packshot`,
       {
         sku: "12345",
-        image_url: "https://imgs.search.brave.com/-yTH3ybsKlO2eG1ufXjrnYVKYh1_tz66Vy3rcVTLmcY/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/cmVrc2Fyay1kaWdp/dGFsLmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyNC8wNi9w/cm9kdWl0c19wYWNr/c2hvdF8zRC5qcGc",
+        file: file,
         background_color: bg_color || "#FFFFFF",
       },
       {
