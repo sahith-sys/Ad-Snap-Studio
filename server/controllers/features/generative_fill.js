@@ -21,7 +21,7 @@ async function generativefill(req, res) {
     };
 
     const response = await axios.post(
-      "https://engine.prod.bria-api.com/v1/genfill",
+      `https://engine.prod.bria-api.com/v1/gen_fill`,
       payload,
       {
         headers: {
@@ -32,11 +32,9 @@ async function generativefill(req, res) {
     );
 
     const data = response.data;
+    const resultImages = data.urls.map((item)=>item[0]);
     console.log("Bria GenFill response:", data);
-    return res.json({
-      success: true,
-      data: data.urls[0],
-    });
+    return res.json({ success: true, images: resultImages});
 
   } catch (error) {
     console.error("Error in generativefill:", error?.response?.data || error.message);

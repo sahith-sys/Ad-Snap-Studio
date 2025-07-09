@@ -12,6 +12,7 @@ import BgGen from "./components/BgGen";
 import AppContextProvider from "./components/AppContext";
 import ProductEditing from "./components/ProductEditing";
 import GenFill from "./components/GenFill";
+import VectorGraphics from "./components/VectorGraphics";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/bggen" element={<BgGen />}></Route>
         <Route path="/product-editing" element={<ProductEditing/>}></Route>
         <Route path="/gen-fill" element={<GenFill />}></Route>
+        <Route path="/vector-graphics" element={<VectorGraphics />}></Route>
       </Routes>
       <ToastContainer />
     </div>
