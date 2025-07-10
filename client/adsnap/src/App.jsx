@@ -13,6 +13,7 @@ import AppContextProvider from "./components/AppContext";
 import ProductEditing from "./components/ProductEditing";
 import GenFill from "./components/GenFill";
 import VectorGraphics from "./components/VectorGraphics";
+import ImgGen_copy from "./components/ImgGen_copy";
 
 function App() {
   return (
@@ -24,11 +25,12 @@ function App() {
         <Route path="/user/signup" element={<Signup />}></Route>
         <Route path="/" element={<Home />}></Route>
         <Route path="/pricing" element={<Pricing />}></Route>
-        <Route path="/imggen" element={<ImgGen />}></Route>
+        <Route path="/imgdemo" element={<ImgGen />}></Route>
         <Route path="/bggen" element={<BgGen />}></Route>
         <Route path="/product-editing" element={<ProductEditing/>}></Route>
         <Route path="/gen-fill" element={<GenFill />}></Route>
         <Route path="/vector-graphics" element={<VectorGraphics />}></Route>
+        <Route path="/imggen" element={<ImgGen_copy/>}></Route>
       </Routes>
       <ToastContainer />
     </div>
