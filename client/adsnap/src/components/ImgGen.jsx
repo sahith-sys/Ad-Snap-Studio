@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 import Navbar from "./Navbar";
+import { Button } from "@/components/ui/button"
 
 export default function ImgGen() {
   const [prompt, setPrompt] = useState("");

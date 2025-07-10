@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 async function imgGeneration(req, res) {
-  const { prompt } = req.body;
+  const { prompt, aspect_ratio, medium, num_results } = req.body;
   if (!prompt || !prompt.trim()) {
     return res.status(400).json({
       success: false,
@@ -13,13 +13,17 @@ async function imgGeneration(req, res) {
     const axios = require("axios");
 
     const modelVersion = "2.2";
+    console.log(prompt, aspect_ratio, medium, num_results);
 
     const resp = await axios.post(
       `https://engine.prod.bria-api.com/v1/text-to-image/hd/${modelVersion}`,
       {
         prompt: prompt,
-        num_results: 1,
+        num_results,
         sync: true,
+        aspect_ratio,
+        medium,
+
       },
       {
         headers: {
@@ -30,6 +34,7 @@ async function imgGeneration(req, res) {
     );
 
     console.log(resp.data);
+    console.log(prompt, aspect_ratio, medium, num_results);
     res.json({success:true, data: resp.data});
   } catch (error) {
     console.error("Error in image generation:", error);
