@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
-import "../index.css"; // Ensure you have Tailwind CSS set up
+import "../index.css";
+import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
 function Navbar() {
-  const [user, setUser] = useState(false);
+  const { user } = useUser();
+  const { openSignIn } = useClerk();
 
   return (
     <div>
@@ -14,7 +16,7 @@ function Navbar() {
           </Link>
           <div className="text-2xl font-bold text-black-100">AdSnap</div>
         </div>
-        
+
         {!user ? (
           <div className=" align-center justify-center space-x-4">
             <Link
@@ -23,12 +25,12 @@ function Navbar() {
             >
               Pricing
             </Link>
-            <Link
-              to="/user/login"
-              className="bg-black text-white px-4 py-2 rounded  hover:bg-gray-900 hover:scale-125 hover:shadow-xl transition-colors duration-300"
+            <button
+              onClick={openSignIn}
+              className="bg-black text-white px-4 py-2 rounded  hover:bg-gray-900 hover:scale-105 hover:shadow-xl transition-colors duration-300 cursor-pointer"
             >
               Login
-            </Link>
+            </button>
           </div>
         ) : (
           <ul className="flex space-x-4">
@@ -40,6 +42,9 @@ function Navbar() {
             </li>
             <li className="text-gray-700 hover:text-black-600 cursor-pointer">
               Contact
+            </li>
+            <li className="text-gray-700 hover:text-black-600 cursor-pointer">
+              <UserButton />
             </li>
           </ul>
         )}

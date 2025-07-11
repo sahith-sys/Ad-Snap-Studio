@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 async function bgGeneration(req, res) {
-  const { prompt, file } = req.body;
+  const { prompt, file, num_results} = req.body;
   if (!file) {
     return res.status(400).json({
       success: false,
@@ -19,7 +19,7 @@ async function bgGeneration(req, res) {
       `https://engine.prod.bria-api.com/v1/background/replace`,
       {
         bg_prompt: prompt,
-        num_results: 1,
+        num_results: num_results,
         sync: true,
         file: file,
       },
@@ -30,10 +30,9 @@ async function bgGeneration(req, res) {
         },
       }
     );
-
-    const data = resp.data;
-    const resultImages = data.result.map((item)=>item[0]);
-    return res.json({ success: true, images: resultImages});
+    const data = resp.data.result;
+    console.log("Background generation response:", data);
+    return res.json({ success: true, images: data});
   } catch (error) {
     console.error("Error in background generation", error);
     return res.json({

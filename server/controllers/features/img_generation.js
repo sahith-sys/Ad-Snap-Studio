@@ -28,7 +28,7 @@ async function imgGeneration(req, res) {
       {
         headers: {
           "Content-Type": "application/json",
-          api_token: apiKey, // Replace this with your actual API key
+          api_token: apiKey, 
         },
       }
     );
