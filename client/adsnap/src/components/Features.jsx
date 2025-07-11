@@ -21,19 +21,19 @@ function Features() {
     },
     {
       id: 3,
-      title: "Background Removal",
+      title: "Background Generation",
       description:
-        "Easily remove image backgrounds with a single click using advanced AI segmentation.",
-      icon: "Scissors",
-      link: "/",
+        "Easily generate stunning backgrounds with a single click using advanced AI techniques.",
+      icon: "ImagePlus",
+      link: "/bggen",
     },
     {
       id: 4,
-      title: "Packshot Creator",
+      title: "Product Packshot Creator",
       description:
         "Quickly create professional product packshots with customizable shadows, clean backgrounds, and perfect framing.",
       icon: "Box",
-      link: "/",
+      link: "/product-editing",
     },
     {
       id: 5,
@@ -41,7 +41,7 @@ function Features() {
       description:
         "Place your product in various environments using text prompts or reference images to create unique, marketing-ready visuals.",
       icon: "Camera",
-      link: "/",
+      link: "/product-editing",
     },
     {
       id: 6,
@@ -49,15 +49,15 @@ function Features() {
       description:
         "Modify or add parts of an image seamlessly using AI-powered inpainting tools for creative freedom.",
       icon: "Brush",
-      link: "/",
+      link: "/gen-fill",
     },
     {
       id: 7,
-      title: "Erase Elements",
+      title: "Vector Graphics",
       description:
-        "Remove unwanted parts of an image with precision masking and AI cleanup tools.",
-      icon: "Eraser",
-      link: "/",
+        "Create and edit vector graphics or logos with precision using our advanced tools.",
+      icon: "VectorSquare",
+      link: "/vector-graphics",
     },
     {
       id: 8,
