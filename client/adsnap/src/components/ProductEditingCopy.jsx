@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 function ProductEditingCopy() {
   const [color, setColor] = useState("#FFFFFF");
+
   const [userImage, setUserImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -152,9 +153,7 @@ function ProductEditingCopy() {
                   <Label htmlFor="r2">Float</Label>
                 </div>
               </RadioGroup>
-              <p className="text-stone-600 ps-2">
-                Shadow Intensity
-              </p>
+              <p className="text-stone-600 ps-2">Shadow Intensity</p>
               <Slider
                 value={[shadowIntensity]}
                 min={0}
@@ -162,6 +161,27 @@ function ProductEditingCopy() {
                 step={2}
                 className="mt-4 w-70 cursor-pointer"
                 onValueChange={([val]) => setShadowIntensity(val)}
+              />
+            </div>
+          )}
+          {option === "Life style product shot by Text" && (
+            <div className="mt-4">
+              <p className="text-sm text-gray-500 mt-1">
+                Upload a product image (JPG, PNG)
+              </p>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="cursor-pointer"
+              />
+              <Slider
+                value={[noImages]}
+                min={1}
+                max={4}
+                step={1}
+                className="mt-4 w-70 cursor-pointer"
+                onValueChange={([val]) => setNoImages(val)}
               />
             </div>
           )}

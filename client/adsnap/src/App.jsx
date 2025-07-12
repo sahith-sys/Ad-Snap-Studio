@@ -15,6 +15,7 @@ import GenFill from "./components/GenFill";
 import VectorGraphics from "./components/VectorGraphics";
 import ImgGen_copy from "./components/ImgGen_copy";
 import ProductEditingCopy from "./components/ProductEditingCopy";
+import Test from "./components/Test";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function App() {
         <Route path="/product-editing" element={<ProductEditingCopy/>}></Route>
         <Route path="/gen-fill" element={<GenFill />}></Route>
         <Route path="/vector-graphics" element={<VectorGraphics />}></Route>
-        <Route path="/imggen" element={<ImgGen_copy/>}></Route>
+        <Route path="/imggen" element={<ImgGen_copy />}></Route>
+        <Route path="/test" element={<Test />}></Route>
       </Routes>
       <ToastContainer />
     </div>

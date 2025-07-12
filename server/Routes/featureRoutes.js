@@ -6,6 +6,7 @@ const {bgGeneration} = require('../controllers/features/bg_generation');
 const {productPackshot} = require('../controllers/features/product_packshot');
 const { generativefill } = require('../controllers/features/generative_fill');
 const { vectorGraphics } = require('../controllers/features/vector_graphics');
+const { generateLifeStyleShotByText } = require('../controllers/lifestyleshotby_text');
 
 router.post('/prompt-enhance', promptEnhancement);
 
@@ -18,5 +19,7 @@ router.post('/product-packshot', productPackshot);
 router.post('/generative-fill', generativefill);
 
 router.post('/vector-graphics', vectorGraphics);
+
+router.post('/lifestyle-shot-by-text', generateLifeStyleShotByText);
 
 module.exports = router;

@@ -22,7 +22,6 @@ const BgGen = () => {
       setPreview(URL.createObjectURL(file));
 
       await convertToBase64(file).then((base64) => {
-        // Remove the prefix (data:image/jpeg;base64,) before sending
         const pureBase64 = base64.split(",")[1];
         setUserImage(pureBase64);
       });
