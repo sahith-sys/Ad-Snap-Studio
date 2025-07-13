@@ -10,11 +10,10 @@ import Signup from "./components/Signup";
 import Pricing from "./components/Pricing";
 import BgGen from "./components/BgGen";
 import AppContextProvider from "./components/AppContext";
-import ProductEditing from "./components/ProductEditing";
 import GenFill from "./components/GenFill";
 import VectorGraphics from "./components/VectorGraphics";
 import ImgGen_copy from "./components/ImgGen_copy";
-import ProductEditingCopy from "./components/ProductEditingCopy";
+import ProductEditing from "./components/ProductEditing";
 import Test from "./components/Test";
 
 function App() {
@@ -29,7 +28,7 @@ function App() {
         <Route path="/pricing" element={<Pricing />}></Route>
         <Route path="/imgdemo" element={<ImgGen />}></Route>
         <Route path="/bggen" element={<BgGen />}></Route>
-        <Route path="/product-editing" element={<ProductEditingCopy/>}></Route>
+        <Route path="/product-editing" element={<ProductEditing/>}></Route>
         <Route path="/gen-fill" element={<GenFill />}></Route>
         <Route path="/vector-graphics" element={<VectorGraphics />}></Route>
         <Route path="/imggen" element={<ImgGen_copy />}></Route>

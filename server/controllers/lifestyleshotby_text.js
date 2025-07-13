@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 async function generateLifeStyleShotByText(req, res) {
-  const { file, prompt, num_results, optimize_description, ratio, type } =
+  const { file, prompt, num_results, optimize_description, ratio, type, manual_placements } =
     req.body;
 
   if (!file || !prompt) {
@@ -30,6 +30,10 @@ async function generateLifeStyleShotByText(req, res) {
     }
     if (type == "original") {
       payload.original_quality = true;
+    }
+    if(type== "manual_placement"){
+      payload.manual_placement_selection = manual_placements;
+      payload.shot_size = [900, 550];
     }
     const resp = await axios.post(
       `https://engine.prod.bria-api.com/v1/product/lifestyle_shot_by_text`,

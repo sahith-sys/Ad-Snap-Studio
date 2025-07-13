@@ -64,6 +64,7 @@ function Test() {
           optimize_description,
           ratio,
           type,
+          manual_placements: manualPlacements,
         }
       );
       console.log("Generated images:", response.data);
@@ -179,7 +180,7 @@ function Test() {
                       "original",
                       "automatic",
                       "automatic_aspect_ratio",
-                      "manual_placement_selection",
+                      "manual_placement",
                     ].map((r) => (
                       <DropdownMenuItem key={r} onSelect={() => setType(r)}>
                         {r}
@@ -215,7 +216,7 @@ function Test() {
                   </DropdownMenu>
                 </div>
               )}
-              {type === "manual_placement_selection" && (
+              {type === "manual_placement" && (
                 <div className="mt-4 ms-5">
                   <p className="text-stone-600 mb-2">Select Placement(s)</p>
                   <div className="grid grid-cols-2 gap-2">
