@@ -32,8 +32,8 @@ async function vectorGraphics(req, res) {
   } catch (error) {
     console.error("Error in Vector Graphics", error);
     return res.json({
-      success: true,
-      error: "Something went wrong while processing your request",
+      success: false,
+      error: error.message || "Something went wrong while processing your request",
     });
   }
 }

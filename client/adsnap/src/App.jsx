@@ -15,12 +15,12 @@ import VectorGraphics from "./components/VectorGraphics";
 import ImgGen_copy from "./components/ImgGen_copy";
 import ProductEditing from "./components/ProductEditing";
 import Test from "./components/Test";
+import GenFillCopy from "./components/GenFillCopy";
 
 function App() {
   return (
     <AppContextProvider>
     <div className="px-4 sm:px-10 md:px-14 lg:px-28 min-h-screen border bg-gradient-to-b from-teal-50 to-orange-50">
-      
       <Routes>
         <Route path="/user/login" element={<Login />}></Route>
         <Route path="/user/signup" element={<Signup />}></Route>
@@ -33,6 +33,7 @@ function App() {
         <Route path="/vector-graphics" element={<VectorGraphics />}></Route>
         <Route path="/imggen" element={<ImgGen_copy />}></Route>
         <Route path="/test" element={<Test />}></Route>
+        <Route path="*" element={<GenFillCopy />}></Route>
       </Routes>
       <ToastContainer />
     </div>

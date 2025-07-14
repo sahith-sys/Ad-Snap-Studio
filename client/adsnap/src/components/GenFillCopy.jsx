@@ -3,7 +3,7 @@ import { ReactSketchCanvas } from "react-sketch-canvas";
 import html2canvas from "html2canvas";
 import axios from "axios";
 
-function GenFill() {
+function GenFillCopy() {
   const [imageBase64, setImageBase64] = useState(null);
   const [maskBase64, setMaskBase64] = useState(null);
   const [prompt, setPrompt] = useState("");
@@ -15,11 +15,21 @@ function GenFill() {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onloadend = () => setImageBase64(reader.result);
-    reader.readAsDataURL(file);
+    if (file) {
+      const base64 = await convertToBase64(file);
+      const purebase64 = base64.split(",")[1];
+      setImageBase64(purebase64);
+    }
   };
+
+  function convertToBase64(file){
+    return new Promise((resolve,reject)=>{
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+    })
+  }
 
   const captureMask = async () => {
     if (!canvasWrapperRef.current) return;
@@ -161,4 +171,4 @@ function GenFill() {
   );
 }
 
-export default GenFill;
+export default GenFillCopy;

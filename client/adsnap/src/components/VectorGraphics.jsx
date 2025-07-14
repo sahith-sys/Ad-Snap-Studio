@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { Pointer } from "lucide-react";
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
+import { Button } from "@/components/ui/button";
 
 function VectorGraphics() {
   const [prompt, setPrompt] = useState("");
@@ -65,9 +66,12 @@ function VectorGraphics() {
   async function generateImage() {
     if (!prompt) {
       toast.error("Please enter the prompt to generate");
+      return;
     }
-    setImageLoading(true);
+
     try {
+      setImageLoading(true);
+      setImageLoaded(false);
       const responce = await axios.post(
         "http://localhost:5000/features/vector-graphics",
         {
@@ -91,18 +95,18 @@ function VectorGraphics() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-col items-center justify-center text-center my-10">
+      {/*<div className="flex flex-col items-center justify-center border text-center my-10">
         <div className=" flex gap-5 w-100 bg-blue">
           {imageUrls.map((item, index) => (
             <div key={index} className="my-4">
               <img
-                src={item.urls[0]} // image URL
+                src={item.urls[0]} 
                 alt={`Generated ${index + 1}`}
                 className="w-140 h-auto mx-auto rounded shadow"
               />
               <a
                 href={item.urls[0]}
-                download={item.urls[0]} // file name
+                download={item.urls[0]}
                 className="text-blue-500 underline text-sm"
                 target="_blank"
                 style={{ cursor: Pointer }}
@@ -165,7 +169,72 @@ function VectorGraphics() {
             </button>
           </>
         )}
+      </div>*/}
+      <div className="bg-white w-130 mx-90 my-10 p-6 rounded-lg shadow-xl">
+        <h1 className="text-xl font-bold">Vector Graphics</h1>
+        <p className="text-gray-600 mt-2">
+          Generate stunning vector graphics from text prompts.
+        </p>
+        <textarea
+          name="prompt"
+          id="prompt"
+          placeholder="Enter your prompt here..."
+          className="w-full p-2 border border-gray-300 rounded-md mt-2 resize-none"
+          rows={4}
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+        ></textarea>
+        <Button onClick={enhancePrompt} className="mt-2 w-55">
+          <ClipLoader
+            color="#ffffffff"
+            className=""
+            loading={loading}
+            cssOverride={{ display: "block" }}
+            speedMultiplier={1}
+            size={20}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+          {!loading ? "Enhance Prompt" : "Enhancing..." }
+        </Button>
+        <Button onClick={generateImage} className="mt-2 ms-5 w-55">
+          {imageLoading && (
+            <ClipLoader
+              color="#ffffffff"
+              className=""
+              loading={imageLoading}
+              cssOverride={{ display: "block" }}
+              speedMultiplier={1}
+              size={20}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          )}
+          {imageLoading ? "Generating Image" : "Generate Image"}
+        </Button>
       </div>
+      {imageLoaded && imageUrls.length > 0 && (
+        <div className="flex flex-wrap gap-4 justify-center">
+          {imageUrls.map((item, index) => (
+            <div key={index} className="my-4">
+              <img
+                src={item.urls[0]}
+                alt={`Generated ${index + 1}`}
+                className="w-140 h-auto mx-auto mb-3 rounded shadow"
+              />
+              <a
+                href={item.urls[0]}
+                download
+                className="text-white bg-black px-6 py-2 mt-5 rounded text-sm cursor-pointer"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Download
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }

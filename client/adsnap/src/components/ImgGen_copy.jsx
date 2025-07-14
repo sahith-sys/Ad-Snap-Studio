@@ -76,7 +76,7 @@ function ImgGen_copy() {
 
   return (
     <div>
-      <div className="flex rounded-lg align-center border mt-20 w-140 shadow-xl h-115 mx-90 bg-white">
+      <div className="flex rounded-lg align-center border mt-20 w-140 shadow-xl h-115 mx-90 bg-[#FFFFFF]">
         <div className="px-6 mt-3 w-full m-0">
           <h1 className="text-2xl font-bold mb-4">Image Generation</h1>
           <div>
