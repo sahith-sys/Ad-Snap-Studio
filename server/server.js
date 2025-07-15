@@ -3,11 +3,15 @@ const cors = require('cors');
 const axios = require('axios');
 require('dotenv').config();
 const featureRoutes =  require('./Routes/featureRoutes');
+const connectDB = require('./config/monogodb');
+const userRoutes = require('./Routes/userRoutes');
 
 const app = express();
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+connectDB();
 
 app.use(cors());
 
@@ -19,6 +23,7 @@ app.get('/', (req,res)=>{
 })
 
 app.use('/features',featureRoutes);
+app.use('/user',userRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

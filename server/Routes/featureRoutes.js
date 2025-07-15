@@ -8,10 +8,11 @@ const { generativefill } = require('../controllers/features/generative_fill');
 const { vectorGraphics } = require('../controllers/features/vector_graphics');
 const { generateLifeStyleShotByText } = require('../controllers/lifestyleshotby_text');
 const { generateShadow } = require('../controllers/features/shadow');
+const creditsAuth = require('../middlewares/creditsAuth');
 
 router.post('/prompt-enhance', promptEnhancement);
 
-router.post('/img-generation', imgGeneration );
+router.post('/img-generation', creditsAuth, imgGeneration);
 
 router.post('/bg-generation', bgGeneration);
 

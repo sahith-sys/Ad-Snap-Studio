@@ -42,13 +42,18 @@ function ImgGen_copy() {
   };
 
   const generateImage = async () => {
-    setImageLoading(true);
     console.log(prompt, ratio, medium, noImages);
     if (!prompt || !prompt.trim()) {
       toast.error("Please enter a valid prompt to generate images.");
       return;
     }
+    setImageLoading(true);
     try {
+      const token = localStorage.getItem("token");
+      {/*if (!token) {
+        toast.error("Please login to generate images.");
+        return;
+      }}*/}
       const response = await axios.post(
         "http://localhost:5000/features/img-generation",
         {
@@ -56,11 +61,18 @@ function ImgGen_copy() {
           aspect_ratio: ratio,
           medium: medium,
           num_results: noImages,
+        },
+        {
+          headers: {
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzYzZDU5ZTlhY2EwYWJjYzNmOTYwMCIsImlhdCI6MTc1MjU3OTQxN30.7gKePaJ_5zHh6gSMnsaQ72MhB28kYkyh13TZlkAfidU",
+          },
         }
       );
       console.log(response.data.data.result);
       if (response.data.success) {
         setImages(response.data.data.result);
+        setPrompt("");
         toast.success("Images generated successfully..");
         toast.success("Please wait for a few seconds to load the image.");
       }
@@ -69,7 +81,6 @@ function ImgGen_copy() {
       toast.error("Failed to generate image. Please try again.");
     } finally {
       setImageLoading(false);
-      setPrompt("");
       setImageLoaded(true);
     }
   };
