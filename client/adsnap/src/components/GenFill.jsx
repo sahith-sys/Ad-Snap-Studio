@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { ReactSketchCanvas } from "react-sketch-canvas";
 import html2canvas from "html2canvas";
 import axios from "axios";
+import { Slider } from "@/components/ui/slider";
 
 function GenFill() {
   const [imageBase64, setImageBase64] = useState(null);
@@ -12,6 +13,7 @@ function GenFill() {
   const canvasRef = useRef();
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [loading, setLoading] = useState(false);
+  const [stroke, setStroke] = useState(10);
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -103,7 +105,7 @@ function GenFill() {
               ref={canvasRef}
               width={imageSize.width}
               height={imageSize.height}
-              strokeWidth={10}
+              strokeWidth={stroke}
               strokeColor="white"
               canvasColor="transparent"
               withTimestamp={false}
@@ -111,6 +113,20 @@ function GenFill() {
                 pointerEvents: "auto",
               }}
             />
+          </div>
+          <div className="mt-2">
+            <p className="text-stone-600 ps-2">Shadow Intensity</p>
+            <div className="flex">
+              <Slider
+                value={[stroke]}
+                min={0}
+                max={100}
+                step={2}
+                className="mt-4 ms-2 w-70 cursor-pointer"
+                onValueChange={([val]) => setStroke(val)}
+              />
+              <div className="mt-2 ms-4">{stroke}</div>
+            </div>
           </div>
         </div>
       )}

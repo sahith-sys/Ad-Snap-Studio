@@ -50,10 +50,10 @@ function ImgGen_copy() {
     setImageLoading(true);
     try {
       const token = localStorage.getItem("token");
-      {/*if (!token) {
+      if (!token) {
         toast.error("Please login to generate images.");
         return;
-      }}*/}
+      }
       const response = await axios.post(
         "http://localhost:5000/features/img-generation",
         {
@@ -64,8 +64,7 @@ function ImgGen_copy() {
         },
         {
           headers: {
-            token:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4NzYzZDU5ZTlhY2EwYWJjYzNmOTYwMCIsImlhdCI6MTc1MjU3OTQxN30.7gKePaJ_5zHh6gSMnsaQ72MhB28kYkyh13TZlkAfidU",
+            token: token,
           },
         }
       );
@@ -87,7 +86,7 @@ function ImgGen_copy() {
 
   return (
     <div>
-      <div className="flex rounded-lg align-center border mt-20 w-140 shadow-xl h-115 mx-90 bg-[#FFFFFF]">
+      <div className="flex rounded-lg align-center border mt-20 w-135 shadow-xl h-115 mx-90 bg-[#FFFFFF]">
         <div className="px-6 mt-3 w-full m-0">
           <h1 className="text-2xl font-bold mb-4">Image Generation</h1>
           <div>
@@ -164,7 +163,7 @@ function ImgGen_copy() {
               </div>
             </div>
             <Button
-              className="cursor-pointer mt-5 w-125 ms-1"
+              className="cursor-pointer mt-5 w-120 ms-1"
               onClick={generateImage}
             >
               {!imageLoading ? "Generate Images" : "Generating..."}

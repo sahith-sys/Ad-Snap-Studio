@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "../index.css";
 import { useClerk, UserButton, useUser } from "@clerk/clerk-react";
+import { AppContext } from "./AppContext";
 function Navbar() {
   const { user } = useUser();
   const { openSignIn } = useClerk();
+  const {credits} = useContext(AppContext);
 
+  
+  
   return (
     <div>
       <nav className="flex justify-between items-center p-4">
@@ -34,6 +39,11 @@ function Navbar() {
           </div>
         ) : (
           <ul className="flex space-x-4">
+            <li>
+              <div>
+                <p>Credits Remaining: {credits}</p>
+              </div>
+            </li>
             <li className="text-gray-700 hover:text-black-600 cursor-pointer">
               Home
             </li>
