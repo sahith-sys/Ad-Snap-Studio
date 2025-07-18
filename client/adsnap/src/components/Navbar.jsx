@@ -59,7 +59,7 @@ function Navbar() {
           </ul>
         )}
       </nav>
-    </div>
+      </div>
   );
 }
 

@@ -16,6 +16,9 @@ import ImgGen_copy from "./components/ImgGen_copy";
 import ProductEditing from "./components/ProductEditing";
 import Test from "./components/Test";
 import GenFillCopy from "./components/GenFillCopy";
+import Footer from "./components/Footer";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 
 function App() {
   return (
@@ -35,6 +38,7 @@ function App() {
         <Route path="/test" element={<Test />}></Route>
         <Route path="*" element={<GenFillCopy />}></Route>
       </Routes>
+      <Footer />
       <ToastContainer />
     </div>
     </AppContextProvider>
