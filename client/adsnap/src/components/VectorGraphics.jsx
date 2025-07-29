@@ -70,13 +70,22 @@ function VectorGraphics() {
     }
 
     try {
+      const token = localStorage.getItem("token");
+      if(!token){
+        toast.error("User Login Required");
+        return;
+      }
       setImageLoading(true);
-      setImageLoaded(false);
       const responce = await axios.post(
         "http://localhost:5000/features/vector-graphics",
         {
           prompt,
-        }
+        },
+        {
+          headers:{
+            token: token,
+          },
+        },
       );
       console.log(responce.data);
       if (responce.data.success) {
@@ -84,7 +93,7 @@ function VectorGraphics() {
         console.log(responce.data.images);
         toast.success("Images generated successfully..");
         setImageLoaded(true);
-        setImageLoading(false);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error in Generating Images", error);
@@ -94,148 +103,76 @@ function VectorGraphics() {
 
   return (
     <>
-      <Navbar />
-      {/*<div className="flex flex-col items-center justify-center border text-center my-10">
-        <div className=" flex gap-5 w-100 bg-blue">
-          {imageUrls.map((item, index) => (
-            <div key={index} className="my-4">
-              <img
-                src={item.urls[0]} 
-                alt={`Generated ${index + 1}`}
-                className="w-140 h-auto mx-auto rounded shadow"
-              />
-              <a
-                href={item.urls[0]}
-                download={item.urls[0]}
-                className="text-blue-500 underline text-sm"
-                target="_blank"
-                style={{ cursor: Pointer }}
-                rel="noopener noreferrer"
-              >
-                Download {item[2]}
-              </a>
-            </div>
-          ))}
-          <ClipLoader
-            color="#000000"
-            className="mt-5"
-            loading={imageLoading}
-            cssOverride={{ display: "block", margin: "0 auto" }}
-            speedMultiplier={1}
-            size={20}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-
-        {!imageLoaded ? (
-          <>
-            <textarea
-              onChange={(e) => setPrompt(e.target.value)}
-              value={prompt}
-              placeholder="e.g. an eagle icon for feathers company the eagle body is brown and with thick beak with wings wide open"
-              className="w-1/2 p-4 border border-gray-300 rounded-md mt-5 resize-none"
-              rows={4}
-            ></textarea>
-
-            <button
-              onClick={enhancePrompt}
-              className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
-            >
-              {loading ? "Enhancing..." : "Enhance Prompt✨"}
-            </button>
-
-            <button
-              className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300"
-              onClick={generateImage}
-            >
-              {imageLoading ? "Generating..." : "Generate Images"}
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              onClick={() => setImageLoaded(false)}
-              className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
-            >
-              Generate More Images
-            </button>
-
-            <button
-              onClick={() => downloadAllImagesAsZip(imageUrls)}
-              className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 cursor-pointer"
-            >
-              Download All
-            </button>
-          </>
-        )}
-      </div>*/}
-      <div className="bg-white w-130 mx-90 my-10 p-6 rounded-lg shadow-xl">
-        <h1 className="text-xl font-bold">Vector Graphics</h1>
-        <p className="text-gray-600 mt-2">
-          Generate stunning vector graphics from text prompts.
-        </p>
-        <textarea
-          name="prompt"
-          id="prompt"
-          placeholder="Enter your prompt here..."
-          className="w-full p-2 border border-gray-300 rounded-md mt-2 resize-none"
-          rows={4}
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-        ></textarea>
-        <Button onClick={enhancePrompt} className="mt-2 w-55">
+  <div className="bg-white w-full max-w-140 mx-auto my-10 p-6 rounded-lg shadow-xl">
+    <h1 className="text-xl font-bold">Vector Graphics</h1>
+    <p className="text-gray-600 mt-2">
+      Generate stunning vector graphics from text prompts.
+    </p>
+    <textarea
+      name="prompt"
+      id="prompt"
+      placeholder="Enter your prompt here..."
+      className="w-full p-2 border border-gray-300 rounded-md mt-2 resize-none"
+      rows={4}
+      value={prompt}
+      onChange={(e) => setPrompt(e.target.value)}
+    ></textarea>
+    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-4 mt-2">
+      <Button onClick={enhancePrompt} className="w-full sm:w-1/2">
+        <ClipLoader
+          color="#ffffffff"
+          className=""
+          loading={loading}
+          cssOverride={{ display: "block" }}
+          speedMultiplier={1}
+          size={20}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+        {!loading ? "Enhance Prompt" : "Enhancing..."}
+      </Button>
+      <Button onClick={generateImage} className="w-full sm:w-1/2 mt-2 sm:mt-0">
+        {imageLoading && (
           <ClipLoader
             color="#ffffffff"
             className=""
-            loading={loading}
+            loading={imageLoading}
             cssOverride={{ display: "block" }}
             speedMultiplier={1}
             size={20}
             aria-label="Loading Spinner"
             data-testid="loader"
           />
-          {!loading ? "Enhance Prompt" : "Enhancing..." }
-        </Button>
-        <Button onClick={generateImage} className="mt-2 ms-5 w-55">
-          {imageLoading && (
-            <ClipLoader
-              color="#ffffffff"
-              className=""
-              loading={imageLoading}
-              cssOverride={{ display: "block" }}
-              speedMultiplier={1}
-              size={20}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          )}
-          {imageLoading ? "Generating Image" : "Generate Image"}
-        </Button>
-      </div>
-      {imageLoaded && imageUrls.length > 0 && (
-        <div className="flex flex-wrap gap-4 justify-center">
-          {imageUrls.map((item, index) => (
-            <div key={index} className="my-4">
-              <img
-                src={item.urls[0]}
-                alt={`Generated ${index + 1}`}
-                className="w-140 h-auto mx-auto mb-3 rounded shadow"
-              />
-              <a
-                href={item.urls[0]}
-                download
-                className="text-white bg-black px-6 py-2 mt-5 rounded text-sm cursor-pointer"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Download
-              </a>
-            </div>
-          ))}
+        )}
+        {imageLoading ? "Generating Image" : "Generate Image"}
+      </Button>
+    </div>
+  </div>
+
+  {imageLoaded && imageUrls.length > 0 && (
+    <div className="flex flex-wrap gap-6 justify-center px-4">
+      {imageUrls.map((item, index) => (
+        <div key={index} className="my-4 max-w-xs w-full">
+          <img
+            src={item.urls[0]}
+            alt={`Generated ${index + 1}`}
+            className="w-full h-auto mx-auto mb-3 rounded shadow"
+          />
+          <a
+            href={item.urls[0]}
+            download
+            className="text-white bg-black px-6 py-2 mt-5 rounded text-sm block text-center"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Download
+          </a>
         </div>
-      )}
-    </>
+      ))}
+    </div>
+  )}
+</>
+
   );
 }
 

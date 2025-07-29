@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 const BgGen = () => {
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
-  const[promptLoading, setPromptLoading] = useState(false);
+  const [promptLoading, setPromptLoading] = useState(false);
   const [userImage, setUserImage] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
   const [preview, setPreview] = useState(null);
@@ -72,14 +72,24 @@ const BgGen = () => {
       return;
     }
 
-    setImageLoading(true);
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to generate images.");
+        return;
+      }
+      setImageLoading(true);
       const response = await axios.post(
         "http://localhost:5000/features/bg-generation",
         {
           prompt: prompt,
           file: userImage,
           num_results: noImages,
+        },
+        {
+          headers: {
+            token: token,
+          },
         }
       );
 
@@ -91,20 +101,19 @@ const BgGen = () => {
         toast.error("Background generation failed.");
       }
     } catch (error) {
-      console.error("Error generating background:", error);
-      toast.error("An error occurred. Please try again.");
+      console.log("Error generating background:", error);
+      toast.error(error.message || "An error occurred. Please try again.");
     } finally {
       setImageLoading(false);
     }
   };
 
   return (
-    <div>
-      <Navbar />
-      <div className="flex rounded-lg align-center border mt-10 w-140 shadow-xl h-95 mx-90 bg-white">
-        <div className="px-6 mt-3 w-full m-0">
-          <h1 className="text-2xl font-bold mb-2">Background Generation</h1>
-          <div>
+    <div className="px-4 sm:px-6 lg:px-12">
+      <div className="flex flex-col lg:flex-row rounded-lg border mt-10 w-full max-w-140 mx-auto shadow-xl bg-white p-6">
+        <div className="w-full">
+          <h1 className="text-2xl font-bold mb-4">Background Generation</h1>
+          <div className="flex flex-col gap-3">
             <input
               type="file"
               accept="image/*"
@@ -115,35 +124,36 @@ const BgGen = () => {
               onChange={(e) => setPrompt(e.target.value)}
               value={prompt}
               placeholder="e.g. A cat riding a Bicycle"
-              className="w-120 p-4 mt-2 border border-gray-300 rounded-md resize-none"
+              className="w-full p-4 border border-gray-300 rounded-md resize-none"
               rows={3}
             ></textarea>
             <Button
               variant="secondary"
-              className="border border-gray-300 hover:text-white hover:bg-black transistion-all duration-500 cursor-pointer mt-2"
+              className="border border-gray-300 hover:text-white hover:bg-black transition-all duration-500 cursor-pointer"
               onClick={enhancedPrompt}
             >
               {promptLoading ? "Enhancing..." : "Enhance Prompt✨"}
             </Button>
           </div>
-          <div>
-            <div className="w-100 flex align-center justify-between mt-2">
-              <p className="text-stone-600 ps-2">
-                Select no. of Images (upto 4)
-              </p>
-              <Slider
-                value={[noImages]}
-                min={1}
-                max={4}
-                step={1}
-                className="mt-4 w-70 cursor-pointer"
-                onValueChange={([val]) => setNoImages(val)}
-              />
-              <div className="mt-4 ms-4">{noImages}</div>
+
+          <div className="mt-6">
+            <div className="w-full flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <p className="text-stone-600">Select no. of Images (up to 4)</p>
+              <div className="flex items-center gap-3 w-full sm:w-auto">
+                <Slider
+                  value={[noImages]}
+                  min={1}
+                  max={4}
+                  step={1}
+                  className="w-full sm:w-72 cursor-pointer"
+                  onValueChange={([val]) => setNoImages(val)}
+                />
+                <div>{noImages}</div>
+              </div>
             </div>
 
             <Button
-              className="cursor-pointer mt-5 w-125 ms-1"
+              className="cursor-pointer mt-5 w-full sm:w-auto"
               onClick={generateBackground}
             >
               {!imageLoading ? "Generate Background" : "Generating..."}
@@ -151,38 +161,37 @@ const BgGen = () => {
           </div>
         </div>
       </div>
-      <div>
-        <div className="my-15 flex gap-35 flex-wrap justify-center">
-          {imageLoading ? (
-            <p className="text-lg font-semibold">Generating Images...</p>
-          ) : preview ? (
-            <img
-              src={preview}
-              alt="Preview"
-              className="w-[300px] h-auto rounded shadow-lg"
-            />
-          ) : (
-            images.map((image, index) => (
-              <div key={index} className="flex flex-col items-center">
-                <h3 className="text-lg font-semibold mb-2">Generated Image</h3>
-                <img
-                  src={image[0]}
-                  alt={`Generated ${index + 1}`}
-                  className="w-[300px] h-auto rounded shadow-lg"
-                />
-                <a
-                  href={image[0]}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 ml-4"
-                >
-                  Download
-                </a>
-              </div>
-            ))
-          )}
-        </div>
+
+      <div className="my-10 flex flex-wrap justify-center gap-8">
+        {imageLoading ? (
+          <p className="text-lg font-semibold">Generating Images...</p>
+        ) : !resultImageLoaded && preview ? (
+          <img
+            src={preview}
+            alt="Preview"
+            className="w-[300px] h-auto rounded shadow-lg"
+          />
+        ) : (
+          images.map((image, index) => (
+            <div key={index} className="flex flex-col items-center">
+              <h3 className="text-lg font-semibold mb-2">Generated Image</h3>
+              <img
+                src={image[0]}
+                alt={`Generated ${index + 1}`}
+                className="w-[300px] h-auto rounded shadow-lg"
+              />
+              <a
+                href={image[0]}
+                download
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300"
+              >
+                Download
+              </a>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

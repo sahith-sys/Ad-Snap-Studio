@@ -6,7 +6,10 @@ import { useEffect } from "react";
 export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const user = localStorage.getItem("user");
+    return user ? JSON.parse(user) : null;
+  });
   const [credits, setCredits] = useState(null);
   const value = {
     user,

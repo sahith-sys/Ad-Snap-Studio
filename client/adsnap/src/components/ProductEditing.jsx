@@ -6,6 +6,7 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useEffect } from "react";
+import GeneratedImage from "./GeneratedImage";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -92,13 +93,24 @@ function ProductEditing() {
       toast.error("Please upload image");
       return;
     }
-    setLoading(true);
+
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to generate images.");
+        return;
+      }
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/features/product-packshot",
         {
           file: userImage,
           bg_color: color,
+        },
+        {
+          headers: {
+            token: token,
+          },
         }
       );
       if (response.data.success) {
@@ -120,8 +132,14 @@ function ProductEditing() {
       toast.error("Please upload image");
       return;
     }
-    setLoading(true);
+
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to generate images.");
+        return;
+      }
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/features/generate-shadow",
         {
@@ -129,6 +147,11 @@ function ProductEditing() {
           shadow_type: shadowType,
           shadow_intensity: shadowIntensity,
           shadow_color: color,
+        },
+        {
+          headers: {
+            token: token,
+          },
         }
       );
       if (response.data.success) {
@@ -136,8 +159,10 @@ function ProductEditing() {
         toast.success("Shadow generated successfully!");
       }
     } catch (error) {
-      console.error("Error generating shadow");
-      toast.error("An error occurred while generating the shadow.");
+      console.log("Error generating shadow:", error);
+      toast.error(
+        error.message || "An error occurred while generating the shadow."
+      );
     } finally {
       setLoading(false);
     }
@@ -169,8 +194,14 @@ function ProductEditing() {
       toast.error("Please enter a valid prompt to generate images.");
       return;
     }
-    setLoading(true);
+
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to generate images.");
+        return;
+      }
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:5000/features/lifestyle-shot-by-text",
         {
@@ -181,6 +212,11 @@ function ProductEditing() {
           ratio,
           type,
           manual_placements: manualPlacements,
+        },
+        {
+          headers: {
+            token: token,
+          },
         }
       );
       console.log("Generated images:", response.data);
@@ -224,22 +260,26 @@ function ProductEditing() {
   }
 
   return (
-    <div>
-      <div className="flex gap-20 justify-center mt-25">
-        <div className="flex items-center justify-center  rounded-lg shadow-inner">
-          {preview != null && (
+    <div className="px-4 sm:px-6 lg:px-12">
+      <div className="flex flex-col lg:flex-row gap-10 justify-center mt-10">
+        {/* Preview Image */}
+        <div className="flex justify-center">
+          {preview && (
             <img
               src={preview}
               alt="Preview"
-              className="w-120 h-120 object-cover rounded-lg shadow-md"
+              className="w-full max-w-[300px] h-auto object-cover rounded-lg shadow-md"
             />
           )}
         </div>
 
-        <div className="p-5 rounded-lg align-center border m-10 w-145 shadow-xl bg-white">
-          <h1 className="text-2xl font-bold mb-2">Product Editing</h1>
+        {/* Options Panel */}
+        <div className="p-5 rounded-lg border shadow-xl bg-white w-full max-w-130">
+          <h1 className="text-2xl font-bold mb-4">Product Editing</h1>
+
+          {/* Dropdown Menu */}
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-80 border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
+            <DropdownMenuTrigger className="w-full border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
               {option}
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-60">
@@ -254,34 +294,31 @@ function ProductEditing() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
+
           {option === "Product Packshot" && (
-            <div className="m-0">
-              <div className=" flex justify-center align-center mt-3 w-full mt-4">
-                <div className="border p-4 rounded-lg w-full">
-                  <p className="text-sm text-black-500 mt-1">
-                    Upload a product image (JPG, PNG)
-                  </p>
+            <div className="mt-4 space-y-4">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1 border p-4 rounded-lg">
+                  <p className="text-sm">Upload a product image (JPG, PNG)</p>
                   <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageUpload}
-                    className="cursor-pointer text-gray-500 mt-2"
+                    className="mt-2 text-gray-500"
                   />
                 </div>
-                <div className="m-0 p-3 rounded-lg">
-                  <p className="text-sm text-gray-500 mt-1">
-                    Select a background color
-                  </p>
+                <div className="flex flex-col justify-center">
+                  <p className="text-sm">Select background color</p>
                   <input
                     type="color"
-                    className="cursor-pointer"
-                    color={color}
+                    className="mt-2 w-12 h-10"
+                    value={color}
                     onChange={(e) => setColor(e.target.value)}
                   />
                 </div>
               </div>
               <Button
-                className="cursor-pointer mt-5 w-125 ms-1"
+                className="w-full"
                 onClick={generatePackshot}
                 disabled={loading}
               >
@@ -289,64 +326,60 @@ function ProductEditing() {
               </Button>
             </div>
           )}
+
           {option === "Product Shadow" && (
-            <div className="mt-4">
+            <div className="mt-4 space-y-4">
               <div className="border p-4 rounded-lg">
-                <p className="text-sm text-black-500 mt-1">
-                  Upload a product image (JPG, PNG)
-                </p>
+                <p className="text-sm">Upload a product image (JPG, PNG)</p>
                 <input
                   type="file"
                   accept="image/*"
                   onChange={handleImageUpload}
-                  className="cursor-pointer text-gray-500 mt-2"
+                  className="mt-2 text-gray-500"
                 />
               </div>
-              <div className="mt-4 flex items-center gap-4">
-                <div className="p-4 rounded-lg">
-                  <p className="text-sm text-gray-500 mt-1">
-                    Select Shadow color
-                  </p>
+              <div className="flex flex-col sm:flex-row items-start gap-6">
+                <div>
+                  <p className="text-sm">Select Shadow color</p>
                   <input
                     type="color"
-                    className="cursor-pointer"
-                    color={color}
+                    value={color}
                     onChange={(e) => setColor(e.target.value)}
                   />
                 </div>
-                <div className="p-4 ms-30">
+                <div>
                   <p>Select Shadow type</p>
                   <RadioGroup
                     defaultValue="regular"
                     onChange={(e) => setShadowType(e.target.value)}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 mt-2">
                       <RadioGroupItem value="regular" id="r1" />
                       <Label htmlFor="r1">Regular</Label>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2 mt-2">
                       <RadioGroupItem value="float" id="r2" />
                       <Label htmlFor="r2">Float</Label>
                     </div>
                   </RadioGroup>
                 </div>
               </div>
-              <div className="mt-2">
-                <p className="text-stone-600 ps-2">Shadow Intensity</p>
-                <div className="flex">
+              <div>
+                <p className="text-sm">Shadow Intensity</p>
+                <div className="flex items-center gap-4">
                   <Slider
                     value={[shadowIntensity]}
                     min={0}
                     max={100}
                     step={2}
-                    className="mt-4 ms-2 w-70 cursor-pointer"
                     onValueChange={([val]) => setShadowIntensity(val)}
+                    className="w-full max-w-md"
                   />
-                  <div className="mt-2 ms-4">{shadowIntensity}</div>
+                  <span>{shadowIntensity}</span>
                 </div>
               </div>
               <Button
-                className="cursor-pointer mt-7 w-125 ms-1"
+                className="w-full"
                 onClick={generateShadow}
                 disabled={loading}
               >
@@ -354,211 +387,139 @@ function ProductEditing() {
               </Button>
             </div>
           )}
+
           {option === "Life style product shot by Text" && (
-            <div>
-              <div className="mt-2">
-                <div className="border p-4 rounded-lg w-120">
-                  <p className="text-sm text-black-500 mt-1">
-                    Upload a product image (JPG, PNG)
-                  </p>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="cursor-pointer text-gray-500 mt-2"
+            <div className="mt-4 space-y-4">
+              <div className="border p-4 rounded-lg">
+                <p className="text-sm">Upload a product image</p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="mt-2 text-gray-500"
+                />
+              </div>
+              <textarea
+                className="w-full p-3 border rounded-md"
+                placeholder="e.g. A cat on a table"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                rows={3}
+              />
+              <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <Slider
+                    value={[noImages]}
+                    min={1}
+                    max={4}
+                    step={1}
+                    onValueChange={([val]) => setNoImages(val)}
+                    className="w-40"
                   />
+                  <span>{noImages}</span>
                 </div>
-                <p className="text-sm text-black-500 mt-1 mb-2">
-                  Enter Scene Description
-                </p>
-                <textarea
-                  onChange={(e) => setPrompt(e.target.value)}
-                  value={prompt}
-                  placeholder="e.g. A cat riding a Bicycle"
-                  className="w-120 p-4 border border-gray-300 rounded-md resize-none"
-                  rows={3}
-                ></textarea>
-                <div className="flex items-center ">
-                  <div>
-                    <p className="text-sm text-black-500 mt-1">
-                      Select number of images (up to 4)
-                    </p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <Slider
-                        value={[noImages]}
-                        min={1}
-                        max={4}
-                        step={1}
-                        className="mt-2 w-50 cursor-pointer"
-                        onValueChange={([val]) => setNoImages(val)}
-                      />
-                      {noImages}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 mt-2 ms-15">
-                    <Checkbox
-                      id="terms"
-                      checked={optimize_description}
-                      onCheckedChange={setOptimizeDescription}
-                    />
-                    <Label htmlFor="terms">Optimize Description</Label>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    id="optimize"
+                    checked={optimize_description}
+                    onCheckedChange={setOptimizeDescription}
+                  />
+                  <Label htmlFor="optimize">Optimize Description</Label>
                 </div>
-                <div className="flex items-center">
-                  <div className="mt-4">
-                    <p className="text-stone-600 ps-2 mb-2">Placement Type</p>
+              </div>
+
+              <div className="flex flex-col lg:flex-row gap-4">
+                <div className="w-full">
+                  <p className="text-sm mb-2">Placement Type</p>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger className="w-full border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
+                      {type}
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-60">
+                      {[
+                        "original",
+                        "automatic",
+                        "automatic_aspect_ratio",
+                        "manual_placement",
+                      ].map((r) => (
+                        <DropdownMenuItem key={r} onSelect={() => setType(r)}>
+                          {r}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {type === "automatic_aspect_ratio" && (
+                  <div className="w-full">
+                    <p className="text-sm mb-2">Aspect Ratio</p>
                     <DropdownMenu>
-                      <DropdownMenuTrigger className="w-60 border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
-                        {type}
+                      <DropdownMenuTrigger className="w-full border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
+                        {ratio || "Select Ratio"}
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-50">
-                        {[
-                          "original",
-                          "automatic",
-                          "automatic_aspect_ratio",
-                          "manual_placement",
-                        ].map((r) => (
-                          <DropdownMenuItem key={r} onSelect={() => setType(r)}>
+                      <DropdownMenuContent className="w-60">
+                        {["1:1", "2:3", "3:2", "4:3", "16:9"].map((r) => (
+                          <DropdownMenuItem
+                            key={r}
+                            onSelect={() => setRatio(r)}
+                          >
                             {r}
                           </DropdownMenuItem>
                         ))}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  {type === "automatic_aspect_ratio" && (
-                    <div className="mt-4 ms-10">
-                      <p className="text-stone-600 ps-2 mb-2">Aspect Ratio</p>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger className="w-60 border rounded-md py-2 px-4 bg-gray-50 text-center cursor-pointer">
-                          {ratio != null ? ratio : "Select Ratio"}
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent className="w-40">
-                          {[
-                            "1:1",
-                            "2:3",
-                            "3:2",
-                            "3:4",
-                            "4:3",
-                            "4:5",
-                            "5:4",
-                            "9:16",
-                            "16:9",
-                          ].map((r) => (
-                            <DropdownMenuItem
-                              key={r}
-                              onSelect={() => setRatio(r)}
-                            >
-                              {r}
-                            </DropdownMenuItem>
-                          ))}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                )}
+
+                {type === "manual_placement" && (
+                  <div className="w-full">
+                    <p className="text-sm mb-2">Manual Placements</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {placements.map((placement) => (
+                        <div
+                          key={placement}
+                          className="flex items-center gap-2"
+                        >
+                          <Checkbox
+                            id={placement}
+                            checked={manualPlacements.includes(placement)}
+                            onCheckedChange={() => togglePlacement(placement)}
+                          />
+                          <Label htmlFor={placement}>{placement}</Label>
+                        </div>
+                      ))}
                     </div>
-                  )}
-                  {type === "manual_placement" && (
-                    <div className="mt-4 ms-10">
-                      <p className="text-stone-600 mb-2">Select Placement(s)</p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {placements.map((placement) => (
-                          <div
-                            key={placement}
-                            className="flex items-center gap-2"
-                          >
-                            <Checkbox
-                              id={placement}
-                              checked={manualPlacements.includes(placement)}
-                              onCheckedChange={() => togglePlacement(placement)}
-                            />
-                            <Label htmlFor={placement}>{placement}</Label>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <Button
-                    className="cursor-pointer mt-5 w-130 ms-1"
-                    onClick={generateLifeStyleShotByText}
-                    disabled={loading}
-                  >
-                    {!loading ? "Generate Images" : "Generating..."}
-                  </Button>
-                </div>
+                  </div>
+                )}
               </div>
+
+              <Button
+                className="w-full mt-2"
+                onClick={generateLifeStyleShotByText}
+                disabled={loading}
+              >
+                {!loading ? "Generate Images" : "Generating..."}
+              </Button>
             </div>
           )}
         </div>
       </div>
-      {option === "Life style product shot by Text" && (
-        <div className="my-15 flex gap-35 flex-wrap justify-center">
-          {resultImages.map((image, index) => (
-            <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold mb-2">Generated Image</h3>
-              <img
-                src={image[0]}
-                alt={`Generated Image ${index + 1}`}
-                className="w-[300px] h-auto rounded shadow-lg"
-              />
-              <a
-                href={image[0]}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 ml-4"
-              >
-                Download
-              </a>
-            </div>
+
+      {/* Generated Results */}
+      <div className="my-10 flex flex-wrap justify-center gap-8">
+        {option === "Life style product shot by Text" &&
+          resultImages.map((img, idx) => (
+            <GeneratedImage key={idx} src={img[0]} index={idx} />
           ))}
-        </div>
-      )}
-      {option === "Product Packshot" && (
-        <div className="my-15 flex gap-35 flex-wrap justify-center">
-          {resultImage && (
-            <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold mb-2">Generated Image</h3>
-              <img
-                src={resultImage}
-                alt="Generated Image"
-                className="w-[300px] h-auto rounded shadow-lg"
-              />
-              <a
-                href={resultImage}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 ml-4"
-              >
-                Download
-              </a>
-            </div>
-          )}
-        </div>
-      )}
-      {option === "Product Shadow" && (
-        <div className="my-15 flex gap-35 flex-wrap justify-center">
-          {resultImage1 && (
-            <div className="flex flex-col items-center">
-              <h3 className="text-lg font-semibold mb-2">Generated Image</h3>
-              <img
-                src={resultImage1}
-                alt="Generated Image"
-                className="w-[300px] h-auto rounded shadow-lg"
-              />
-              <a
-                href={resultImage1}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-black text-white px-6 py-2 rounded-full mt-5 hover:bg-gray-800 transition-colors duration-300 ml-4"
-              >
-                Download
-              </a>
-            </div>
-          )}
-        </div>
-      )}
+
+        {option === "Product Packshot" && resultImage && (
+          <GeneratedImage src={resultImage} index={0} />
+        )}
+
+        {option === "Product Shadow" && resultImage1 && (
+          <GeneratedImage src={resultImage1} index={0} />
+        )}
+      </div>
     </div>
   );
 }

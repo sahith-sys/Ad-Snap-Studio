@@ -5,14 +5,6 @@ function Features() {
   const features = [
     {
       id: 1,
-      title: "AI-Powered Prompt Enhancement",
-      description:
-        "Automatically transform simple text prompts into rich, detailed descriptions for better image generation results.",
-      icon: "Wand2",
-      link: "/imggen",
-    },
-    {
-      id: 2,
       title: "HD Image Generation",
       description:
         "Generate high-quality, stunning images from your enhanced text prompts with full control over resolution, aspect ratio, and style.",
@@ -20,7 +12,7 @@ function Features() {
       link: "/imggen",
     },
     {
-      id: 3,
+      id: 2,
       title: "Background Generation",
       description:
         "Easily generate stunning backgrounds with a single click using advanced AI techniques.",
@@ -28,7 +20,7 @@ function Features() {
       link: "/bggen",
     },
     {
-      id: 4,
+      id: 3,
       title: "Product Packshot Creator",
       description:
         "Quickly create professional product packshots with customizable shadows, clean backgrounds, and perfect framing.",
@@ -36,7 +28,7 @@ function Features() {
       link: "/product-editing",
     },
     {
-      id: 5,
+      id: 4,
       title: "Lifestyle Shot Generator",
       description:
         "Place your product in various environments using text prompts or reference images to create unique, marketing-ready visuals.",
@@ -44,64 +36,55 @@ function Features() {
       link: "/product-editing",
     },
     {
-      id: 6,
+      id: 5,
       title: "Generative Fill",
       description:
         "Modify or add parts of an image seamlessly using AI-powered inpainting tools for creative freedom.",
       icon: "Brush",
-      link: "/gen-fill",
+      link: "/coming-soon",
     },
     {
-      id: 7,
+      id: 6,
       title: "Vector Graphics",
       description:
         "Create and edit vector graphics or logos with precision using our advanced tools.",
       icon: "VectorSquare",
       link: "/vector-graphics",
     },
-    {
-      id: 8,
-      title: "Project Management",
-      description:
-        "Save, organize, and manage all your generated and edited images in your personal project dashboard.",
-      icon: "Folder",
-      link: "/",
-    },
-    {
-      id: 9,
-      title: "Download & Share",
-      description:
-        "Instantly download your creations or share them directly from the platform to social media or your team.",
-      icon: "Share2",
-      link: "/",
-    },
   ];
 
   return (
-    <div className="my-10 px-4 sm:px-10 md:px-14 lg:px-28">
-      <div className="flex flex-col items-center justify-center text-center my-10">
-        <div className="bg-white p-2 rounded-full border border-neutral-500 px-7 mb-8">
-          Explore Our Features
-        </div>
-        <h1 className="text-4xl font-bold mb-5">Why Choose AdSnap?</h1>
-        <p className="text-xl mb-5">
-          Discover the powerful features that make AdSnap your go-to AI image
-          generation tool.
-        </p>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10">
-        {features.map((feature) => (
-            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer" key={feature.id}>
-          <h2 className="text-2xl font-semibold mb-4">{feature.title}</h2>
-          <p>
-            {feature.description}
+    <section id="features">
+      <div className="my-10 px-4 sm:px-10 md:px-14 lg:px-28">
+        <div className="flex flex-col items-center justify-center text-center my-10">
+          <div className="bg-white p-2 rounded-full border border-neutral-500 px-7 mb-8">
+            Explore Our Features
+          </div>
+          <h1 className="text-4xl font-bold mb-5">Why Choose AdSnap?</h1>
+          <p className="text-xl mb-5">
+            Discover the powerful features that make AdSnap your go-to AI image
+            generation tool.
           </p>
-          <Link to={feature.link}><button className="bg-black text-white my-3 w-20 rounded-full py-1 cursor-pointer">Try✨</button></Link>
         </div>
-        ))}
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-10">
+          {features.map((feature) => (
+            <div
+              className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer"
+              key={feature.id}
+            >
+              <h2 className="text-2xl font-semibold mb-4">{feature.title}</h2>
+              <p>{feature.description}</p>
+              <Link to={feature.link}>
+                <button className="bg-black text-white my-3 w-20 rounded-full py-1 cursor-pointer">
+                  Try✨
+                </button>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

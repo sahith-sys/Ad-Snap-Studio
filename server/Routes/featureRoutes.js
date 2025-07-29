@@ -14,16 +14,16 @@ router.post('/prompt-enhance', promptEnhancement);
 
 router.post('/img-generation', creditsAuth, imgGeneration);
 
-router.post('/bg-generation', bgGeneration);
+router.post('/bg-generation', creditsAuth, bgGeneration);
 
-router.post('/product-packshot', productPackshot);
+router.post('/product-packshot', creditsAuth, productPackshot);
 
-router.post('/generative-fill', generativefill);
+router.post('/generative-fill', creditsAuth, generativefill);
 
-router.post('/vector-graphics', vectorGraphics);
+router.post('/vector-graphics', creditsAuth, vectorGraphics);
 
-router.post('/lifestyle-shot-by-text', generateLifeStyleShotByText);
+router.post('/lifestyle-shot-by-text', creditsAuth, generateLifeStyleShotByText);
 
-router.post('/generate-shadow', generateShadow);
+router.post('/generate-shadow', creditsAuth, generateShadow);
 
 module.exports = router;

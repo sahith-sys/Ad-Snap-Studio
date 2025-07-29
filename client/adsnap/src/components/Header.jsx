@@ -44,18 +44,24 @@ function Header() {
             </motion.p>
           </div>
 
-          <motion.button
-            className="mt-6 sm:mt-7 bg-black px-6 sm:px-8 md:px-10 py-2 text-white rounded-full text-lg sm:text-xl md:text-2xl cursor-pointer hover:scale-105 transition-all duration-300"
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              default: { duration: 0.5 },
-              opacity: { delay: 0.8, duration: 1 },
-            }}
-          >
-            Explore
-          </motion.button>
+          <a href={"#features"}>
+            <motion.button
+              className="mt-6 sm:mt-7 bg-black px-6 sm:px-8 md:px-10 py-2 text-white rounded-full text-lg sm:text-xl md:text-2xl cursor-pointer hover:scale-105 transition-all duration-300"
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{
+                default: { duration: 0.5 },
+                opacity: { delay: 0.8, duration: 1 },
+              }}
+            >
+              Explore
+              <i
+                className="fa-solid fa-angle-down ms-2 mt-1"
+                style={{ color: "#ffffff" }}
+              ></i>
+            </motion.button>
+          </a>
         </div>
 
         <motion.div

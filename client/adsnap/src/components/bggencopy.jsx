@@ -103,8 +103,6 @@ const BgGen = () => {
             className="w-[300px] h-auto rounded shadow-lg"
           />
         </div>
-
-        {/* Generated Image */}
         <div>
           <h3 className="text-lg font-semibold mb-2">Generated Background</h3>
           {loading ? (

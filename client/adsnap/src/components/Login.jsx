@@ -23,7 +23,6 @@ function Login() {
         password,
       })
       if(resp.data.success){
-        toast.success("Login successful!");
         localStorage.setItem("token",resp.data.token);
         localStorage.setItem("user",JSON.stringify(resp.data.user.name));
         navigate("/");
