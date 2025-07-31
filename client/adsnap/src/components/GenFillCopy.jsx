@@ -53,7 +53,7 @@ function GenFill() {
     };
     try {
       const res = await axios.post(
-        "http://localhost:5000/features/generative-fill",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/generative-fill`,
         payload
       );
       const resultUrl = res.data;

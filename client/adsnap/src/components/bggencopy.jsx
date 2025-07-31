@@ -51,7 +51,7 @@ const BgGen = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/features/bg-generation",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/bg-generation`,
         {prompt: prompt, file: userImage,});
 
       if (response.data && response.data.images.length > 0) {

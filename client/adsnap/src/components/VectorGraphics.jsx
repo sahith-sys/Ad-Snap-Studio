@@ -46,7 +46,7 @@ function VectorGraphics() {
     setLoading(true);
     try {
       const responce = await axios.post(
-        "http://localhost:5000/features/prompt-enhance",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/prompt-enhance`,
         {
           prompt,
         }
@@ -77,7 +77,7 @@ function VectorGraphics() {
       }
       setImageLoading(true);
       const responce = await axios.post(
-        "http://localhost:5000/features/vector-graphics",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/vector-graphics`,
         {
           prompt,
         },

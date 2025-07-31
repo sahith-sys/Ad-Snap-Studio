@@ -35,7 +35,7 @@ const BgGen = () => {
     try {
       setPromptLoading(true);
       const enhancePrompt = await axios.post(
-        "http://localhost:5000/features/prompt-enhance",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/prompt-enhance`,
         {
           prompt: prompt,
         }
@@ -80,7 +80,7 @@ const BgGen = () => {
       }
       setImageLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/features/bg-generation",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/bg-generation`,
         {
           prompt: prompt,
           file: userImage,

@@ -15,7 +15,7 @@ function Signup() {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const resp = await axios.post("http://localhost:5000/user/signup",{
+    const resp = await axios.post(`${import.meta.env.VITE_REACT_APP_BACKEND_URL}/user/signup`,{
       email,
       password,
       name,

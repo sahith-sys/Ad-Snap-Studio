@@ -56,7 +56,7 @@ function Test() {
     setImageLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/features/lifestyle-shot-by-text",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/lifestyle-shot-by-text`,
         {
           file: userImage,
           prompt,

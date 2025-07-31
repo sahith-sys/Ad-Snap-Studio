@@ -26,7 +26,7 @@ function ImgGen_copy() {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/features/prompt-enhance",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/prompt-enhance`,
         { prompt: prompt }
       );
       console.log(response.data);
@@ -55,7 +55,7 @@ function ImgGen_copy() {
         return;
       }
       const response = await axios.post(
-        "http://localhost:5000/features/img-generation",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/img-generation`,
         {
           prompt: prompt,
           aspect_ratio: ratio,

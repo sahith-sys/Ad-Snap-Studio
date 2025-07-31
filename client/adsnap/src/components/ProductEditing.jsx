@@ -102,7 +102,7 @@ function ProductEditing() {
       }
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/features/product-packshot",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/product-packshot`,
         {
           file: userImage,
           bg_color: color,
@@ -141,7 +141,7 @@ function ProductEditing() {
       }
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/features/generate-shadow",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/generate-shadow`,
         {
           file: userImage,
           shadow_type: shadowType,
@@ -203,7 +203,7 @@ function ProductEditing() {
       }
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/features/lifestyle-shot-by-text",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/lifestyle-shot-by-text`,
         {
           file: userImage,
           prompt,
@@ -242,7 +242,7 @@ function ProductEditing() {
     try {
       setPromptLoading(true);
       const enhancePrompt = await axios.post(
-        "http://localhost:5000/features/prompt-enhance",
+        `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/features/prompt-enhance`,
         {
           prompt: prompt,
         }

@@ -22,7 +22,7 @@ const AppContextProvider = (props) => {
     const handleCredits = async () => {
       try {
         const resp = await axios.post(
-          "http://localhost:5000/user/credits",
+          `${import.meta.env.VITE_REACT_APP_BACKEND_URL}/user/credits`,
           {},
           {
             headers: {
