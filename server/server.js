@@ -13,7 +13,10 @@ app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 connectDB();
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
 
 
 const PORT = process.env.PORT || 5000;
