@@ -14,7 +14,7 @@ async function promptEnhancement(req, res) {
 
   try {
     const apiKey = process.env.BRIA_API_KEY;
-    console.log('Using API Key:', apiKey);
+    console.log('BRIA_API_KEY configured:', Boolean(apiKey));
 
     const resp = await axios.post(
       `https://engine.prod.bria-api.com/v1/prompt_enhancer`,
@@ -31,7 +31,11 @@ async function promptEnhancement(req, res) {
     res.json({ success: true, data: resp.data });
 
   } catch (error) {
-    console.log('Error details:', JSON.stringify(error, null, 2));
+    console.log('Bria API request failed:', {
+      message: error.message,
+      status: error.response?.status,
+      error: error.response?.data?.error || error.response?.data,
+    });
     res.status(error.response?.status || 500).json({
       success: false,
       error: error?.response?.data?.error || 'Something went wrong. Please try again.',
